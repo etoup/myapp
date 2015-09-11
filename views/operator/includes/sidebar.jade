@@ -19,14 +19,19 @@ section.sidebar
   // sidebar menu: : style can be found in sidebar.less
   ul.sidebar-menu
     li.header 导航列表  
-    li.active.treeview
+    li.active
       a(href='#')
         i.fa.fa-dashboard
+        span 后台首页
+    li
+    li.treeview
+      a(href='#')
+        i.fa.fa-gears
         span 系统设置
         i.fa.fa-angle-left.pull-right
       ul.treeview-menu
-        li.active
-          a(href='index.html')
+        li
+          a(href='/operator/picture')
             i.fa.fa-circle-o
             |  全局设置            
         li
@@ -47,7 +52,7 @@ section.sidebar
             |  优惠码设置
     li.treeview
       a(href='#')
-        i.fa.fa-files-o                
+        i.fa.fa-group                
         span 用户管理            
         span.label.label-primary.pull-right 4  
       ul.treeview-menu
@@ -79,12 +84,12 @@ section.sidebar
         small.label.pull-right.bg-red 3  
     li
       a(href='pages/mailbox/mailbox.html')
-        i.fa.fa-envelope
+        i.fa.fa-briefcase
         span 规则管理             
         small.label.pull-right.bg-yellow 12  
     li
       a(href='pages/mailbox/mailbox.html')
-        i.fa.fa-envelope
+        i.fa.fa-calculator
         span 结算管理             
         small.label.pull-right.bg-yellow 12  
     li.header 快捷操作
