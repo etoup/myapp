@@ -1,13 +1,13 @@
 var mongoose = require('mongoose')
-var User = mongoose.model('User')
+var Nav = mongoose.model('Nav')
 
 // index page
 exports.index = function(req, res) {
-  User.fetch(function(err, users) {
+  Nav.findByTypes(function(err, navs) {
     if (err) {
       console.log(err)
     }
-
+    console.log(navs)
     res.render('operator/index', {
       title: '运营方后台'
     })
