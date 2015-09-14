@@ -5,17 +5,33 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var venue = require('./routes/venue');
-var operator = require('./routes/operator');
-
+var fs = require('fs')
+mongoose.connect('mongodb://localhost/operator');
 
 var app = express();
 
+var models_path = __dirname + '/app/models'
+var walk = function(path) {
+  fs
+    .readdirSync(path)
+    .forEach(function(file) {
+      var newPath = path + '/' + file
+      var stat = fs.statSync(newPath)
+
+      if (stat.isFile()) {
+        if (/(.*)\.(js|coffee)/.test(file)) {
+          require(newPath)
+        }
+      }
+      else if (stat.isDirectory()) {
+        walk(newPath)
+      }
+    })
+}
+walk(models_path)
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -26,10 +42,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/venue', venue);
-app.use('/operator', operator);
+require('./config/operator')(app); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,6 +63,8 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
+  app.locals.pretty = true
+  mongoose.set('debug', true)
 }
 
 // production error handler
